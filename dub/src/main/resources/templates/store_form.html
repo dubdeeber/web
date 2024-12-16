@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <script src="/js/scripts.js" defer></script>
+
+</head>
+<body>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/stores}">Stores</a>
+        <a th:href="@{/customers}">Customers</a>
+        
+        <div sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+            <a th:href="@{/manager/dashboard}" th:text="${#authentication.name}"></a>
+        </div>
+
+        <div sec:authorize="!isAuthenticated()">
+            <a href="@{/manager-login}">Manager Login</a>
+        </div>
+        
+        <button id="theme-button" onclick="toggleTheme()">🌙</button>
+    </nav>
+    <h1>Store Form</h1>
+    <form th:action="@{/stores}" th:object="${store}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <label>Location:</label>
+        <input type="text" th:field="*{location}" required />
+
+        <label>Manager:</label>
+        <input type="text" th:field="*{manager}" />
+
+        <label>Employee Count:</label>
+        <input type="number" th:field="*{employeeCount}" />
+
+        <label>Estimated Revenue:</label>
+        <input type="number" step="0.01" th:field="*{estimatedRevenue}" />
+
+        <input type="submit" value="Save" />
+    </form>
+</body>
+</html>

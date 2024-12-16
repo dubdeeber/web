@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manager Login</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/scripts.js" defer></script>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/stores}">Stores</a>
+        <a th:href="@{/customers}">Customers</a>
+        
+        <div sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+            <a th:href="@{/manager/dashboard}" th:text="${#authentication.name}"></a>
+        </div>
+
+        <div sec:authorize="!isAuthenticated()">
+            <a href="@{/manager-login}">Manager Login</a>
+        </div>
+        
+        <button id="theme-button" onclick="toggleTheme()">🌙</button>
+    </nav>
+    <h1>Manager Login</h1>
+    <form th:action="@{/perform_login}" method="post">
+        <label>Username:</label>
+        <input type="text" name="username" required />
+        <label>Password:</label>
+        <input type="password" name="password" required />
+        <br>
+        <input type="submit" value="Login" />
+    </form>
+</body>
+</html>
